@@ -1,8 +1,20 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import { UserContextProvider } from "../lib/UserContext";
+import { supabase } from "../utils/init-supabase";
+// import "../style.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+export default function MyApp({
+  Component,
+  pageProps,
+}: {
+  Component: any;
+  pageProps: any;
+}) {
+  return (
+    <main>
+      <UserContextProvider supabaseClient={supabase}>
+        <Component {...pageProps} />
+      </UserContextProvider>
+    </main>
+  );
 }
-
-export default MyApp

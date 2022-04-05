@@ -1,18 +1,20 @@
 {
-  "name": "source",
+  "name": "@technologiestiftung/qtrees-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8080",
     "lint": "next lint",
     "test": "jest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "1.33.3",
     "next": "12.1.4",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "swr": "1.2.2"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.1",
@@ -29,6 +31,7 @@
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",
     "jest": "27.5.1",
+    "semantic-release": "19.0.2",
     "typescript": "4.6.3"
   },
   "config": {
