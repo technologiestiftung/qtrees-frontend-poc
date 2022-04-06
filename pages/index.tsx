@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Auth from "./../components/Auth";
 import { useUser } from "../lib/UserContext";
 
+import { useUserRole } from "../lib/hooks/useUserRoles";
+
 const fetcher = (url: string, token: string) =>
   fetch(url, {
     method: "GET",
@@ -14,11 +16,20 @@ const fetcher = (url: string, token: string) =>
 
 const Index = () => {
   const { user, session } = useUser();
+  const [userId, setUserId] = useState<string | undefined>(undefined);
+  const { userRoles, userRolesError } = useUserRole(userId);
+
   const { data, error } = useSWR(
     session ? ["/api/getUser", session.access_token] : null,
     fetcher
   );
+
   const [authView, setAuthView] = useState("sign_in");
+  useEffect(() => {
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -73,7 +84,6 @@ const Index = () => {
           <>
             <h4>{"You're signed in"}</h4>
             <h5>Email: {user.email}</h5>
-
             <button onClick={() => supabase.auth.signOut()}>Log out</button>
             <hr />
             {error && <div style={{ color: "red" }}>Failed to fetch user!</div>}
@@ -88,10 +98,23 @@ const Index = () => {
             ) : (
               <div>Loading...</div>
             )}
-
+            <hr />
+            {userRolesError && (
+              <>
+                {"User Roles Error"}
+                <pre>{JSON.stringify(userRolesError)}</pre>
+              </>
+            )}
+            {"User Roles"}
+            {userRoles && (
+              <>
+                <pre>{JSON.stringify(userRoles, null, 2)}</pre>
+              </>
+            )}
             <Link href="/profile">
               <a>SSR example with getServerSideProps</a>
             </Link>
+            <Link href="/trees">See the trees overview</Link>
           </>
         )}
       </>

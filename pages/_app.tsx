@@ -1,7 +1,11 @@
-import "../styles/globals.css";
+import "../styles/globals.scss";
+
 import { UserContextProvider } from "../lib/UserContext";
 import { supabase } from "../utils/init-supabase";
 // import "../style.css";
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  require("../src/mocks");
+}
 
 export default function MyApp({
   Component,

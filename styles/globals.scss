@@ -1,0 +1,65 @@
+body {
+  font-family: Helvetica, Arial, Sans-Serif;
+}
+
+a {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+input {
+  display: block;
+  width: 320px;
+  font-size: 16px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+button {
+  margin-bottom: 32px;
+  cursor: pointer;
+}
+
+pre {
+  background: black;
+  color: white;
+  padding: 16px;
+}
+
+table {
+  border-spacing: 0;
+  border: 1px solid black;
+
+  tr {
+    :last-child {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  th,
+  td {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+
+    :last-child {
+      border-right: 0;
+    }
+
+    input {
+      font-size: 1rem;
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+  }
+}
+
+.pagination {
+  padding: 0.5rem;
+}
