@@ -14,11 +14,22 @@ const fetcher = (url: string, token: string) =>
     credentials: "same-origin",
   }).then((res) => res.json());
 
+const poster = (url: string, token: string, body: any) =>
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: new Headers({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }),
+  }).then((res) => res.json());
+
 const Index = () => {
   const { user, session } = useUser();
   const [userId, setUserId] = useState<string | undefined>(undefined);
   const { userRoles, userRolesError } = useUserRole(userId);
 
+  const [apiData, setApiData] = useState({});
   const { data, error } = useSWR(
     session ? ["/api/getUser", session.access_token] : null,
     fetcher
@@ -105,12 +116,37 @@ const Index = () => {
                 <pre>{JSON.stringify(userRolesError)}</pre>
               </>
             )}
-            {"User Roles"}
+            <h4>User Role</h4>
             {userRoles && (
               <>
                 <pre>{JSON.stringify(userRoles, null, 2)}</pre>
               </>
             )}
+            <hr />
+            <h4>
+              Make requests based on your user role (e.g. only admin and editor
+              are allowed)
+            </h4>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                if (!session) return;
+                poster(
+                  `${process.env.NEXT_PUBLIC_TREES_API_URL}/trees/1`,
+                  session.access_token,
+                  {
+                    message: "Hello from the client!",
+                  }
+                ).then((res) => {
+                  console.log(res);
+                  setApiData(res);
+                });
+              }}
+            >
+              POST
+            </button>
+            {apiData && <pre>{JSON.stringify(apiData, null, 2)}</pre>}
             <Link href="/profile">
               <a>SSR example with getServerSideProps</a>
             </Link>
